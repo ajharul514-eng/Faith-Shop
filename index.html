@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faith Shop — Wear Your Pride</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0a0b0e;
+    --panel:#13161c;
+    --panel-2:#1b1f27;
+    --line: rgba(184,192,201,0.14);
+    --blue: #1e7fe0;
+    --blue-bright: #56b6ff;
+    --steel: #b8c0c9;
+    --white: #edeff2;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--white);
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  .mono{
+    font-family:'Space Mono',monospace;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(10,11,14,0.75);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 32px;max-width:1240px;margin:0 auto;
+  }
+  .brandmark{display:flex;align-items:center;gap:12px;}
+  .hex-badge{
+    width:40px;height:40px;
+    background:#fff;
+    border-radius:10px;
+    padding:5px;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 0 0 1px rgba(86,182,255,0.25);
+  }
+  .hex-badge img{width:100%;height:100%;object-fit:contain;}
+  .brand-name{font-size:18px;font-weight:600;letter-spacing:0.08em;}
+  .brand-name span{color:var(--blue-bright);}
+  .nav-links{display:flex;gap:36px;font-size:13px;letter-spacing:0.1em;}
+  .nav-links a{color:var(--steel);transition:color 0.2s;}
+  .nav-links a:hover{color:var(--white);}
+  .nav-cta{
+    font-size:12px;padding:10px 20px;border:1px solid var(--blue);
+    color:var(--blue-bright);letter-spacing:0.14em;
+    clip-path:polygon(10% 0,100% 0,90% 100%,0 100%);
+    transition:background 0.2s, color 0.2s;
+  }
+  .nav-cta:hover{background:var(--blue);color:var(--void);}
+  .menu-btn{display:none;background:none;border:none;color:var(--white);font-size:22px;cursor:pointer;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;align-items:flex-end;
+  }
+  .hero img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(10,11,14,0.05) 0%, rgba(10,11,14,0.35) 55%, rgba(10,11,14,0.95) 100%);
+  }
+  .hero-content{
+    position:relative;z-index:2;width:100%;
+    padding:0 32px 72px;
+    max-width:1240px;margin:0 auto;
+    display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
+  }
+  .hero-eyebrow{
+    font-size:12px;color:var(--blue-bright);margin-bottom:14px;display:block;
+  }
+  .hero-content h1{
+    font-size:clamp(28px,4vw,44px);
+    max-width:520px;line-height:1.15;
+  }
+  .hero-cta{
+    display:inline-flex;align-items:center;gap:10px;
+    margin-top:26px;
+    padding:15px 28px;
+    background:linear-gradient(120deg,var(--blue-bright),var(--blue));
+    color:var(--void);font-weight:600;font-size:13px;letter-spacing:0.1em;
+    clip-path:polygon(6% 0,100% 0,94% 100%,0 100%);
+    transition:transform 0.2s ease;
+  }
+  .hero-cta:hover{transform:translateX(4px);}
+  .hero-side{
+    font-size:13px;color:var(--steel);max-width:260px;text-align:right;line-height:1.6;
+  }
+  .scroll-cue{
+    position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+    font-size:11px;color:var(--steel);z-index:2;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+  }
+  .scroll-cue .bar{width:1px;height:28px;background:linear-gradient(var(--blue-bright),transparent);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%,100%{opacity:0.3}50%{opacity:1}}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee-band{
+    background:var(--panel);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;padding:14px 0;
+  }
+  .marquee-track{
+    display:flex;white-space:nowrap;
+    animation:scroll 26s linear infinite;
+    width:max-content;
+  }
+  .marquee-track span{
+    font-size:13px;letter-spacing:0.2em;color:var(--steel);
+    padding:0 28px;display:flex;align-items:center;gap:28px;
+  }
+  .marquee-track span b{color:var(--blue-bright);font-weight:600;}
+  @keyframes scroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{padding:110px 0;}
+  .section-head{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:56px;gap:24px;flex-wrap:wrap;
+  }
+  .eyebrow{
+    font-size:12px;color:var(--blue-bright);display:block;margin-bottom:12px;
+  }
+  .section-head h2{font-size:clamp(26px,3.4vw,38px);}
+  .section-head p{color:var(--steel);font-size:14px;max-width:320px;line-height:1.6;}
+
+  /* ---------- PRODUCT GRID ---------- */
+  .grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:28px;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    transition:transform 0.25s ease, border-color 0.25s ease;
+  }
+  .card:hover{transform:translateY(-6px);border-color:var(--blue);}
+  .card-media{
+    position:relative;height:270px;
+    clip-path:polygon(0 0,100% 0,100% 88%,90% 100%,0 100%);
+    background:linear-gradient(160deg,#1b1f27,#0d0f13 70%);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .card-media img{
+    width:100%;height:100%;object-fit:cover;object-position:center top;
+    transition:transform 0.4s ease;
+  }
+  .card:hover .card-media img{transform:scale(1.05);}
+  .card-body{padding:20px 22px 24px;}
+  .card-tag{font-size:10px;color:var(--blue-bright);margin-bottom:8px;display:block;}
+  .card-body h3{font-size:16px;letter-spacing:0.03em;margin-bottom:8px;}
+  .card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;}
+  .price{font-family:'Space Mono',monospace;font-size:15px;color:var(--white);}
+  .add-btn{
+    font-size:11px;letter-spacing:0.1em;color:var(--blue-bright);
+    border:1px solid var(--blue);padding:8px 14px;
+    clip-path:polygon(8% 0,100% 0,92% 100%,0 100%);
+    transition:background 0.2s,color 0.2s;
+  }
+  .add-btn:hover{background:var(--blue);color:var(--void);}
+
+  /* ---------- STORY ---------- */
+  .story{
+    background:var(--panel);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .story-grid{
+    display:grid;grid-template-columns:1.2fr 0.8fr;gap:60px;align-items:center;
+  }
+  .story h2{font-size:clamp(24px,3.2vw,36px);line-height:1.35;font-weight:500;text-transform:none;letter-spacing:0;font-family:'Oswald',sans-serif;}
+  .story h2 b{color:var(--blue-bright);font-weight:600;}
+  .story p{color:var(--steel);margin-top:22px;line-height:1.75;font-size:15px;max-width:480px;}
+  .story-stats{
+    border:1px solid var(--line);padding:36px;
+    clip-path:polygon(0 0,100% 0,100% 100%,8% 100%,0 88%);
+    background:var(--void);
+  }
+  .stat{padding:18px 0;border-bottom:1px solid var(--line);}
+  .stat:last-child{border-bottom:none;}
+  .stat b{display:block;font-family:'Oswald',sans-serif;font-size:30px;color:var(--blue-bright);}
+  .stat span{font-size:12px;color:var(--steel);letter-spacing:0.08em;}
+
+  /* ---------- VALUES ---------- */
+  .values{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+  .value{background:var(--void);padding:36px 28px;}
+  .value svg{width:30px;height:30px;stroke:var(--blue-bright);margin-bottom:18px;}
+  .value h4{font-size:14px;letter-spacing:0.05em;margin-bottom:8px;font-family:'Oswald',sans-serif;text-transform:uppercase;}
+  .value p{font-size:13px;color:var(--steel);line-height:1.6;}
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{
+    background:linear-gradient(120deg,#0d3a66,#0a0b0e 70%);
+    border-top:1px solid var(--line);
+    padding:80px 0;
+  }
+  .cta-inner{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:28px;
+    clip-path:polygon(2% 0,100% 0,98% 100%,0 100%);
+    border:1px solid rgba(86,182,255,0.35);
+    padding:40px 44px;
+  }
+  .cta-inner h3{font-size:clamp(20px,2.6vw,28px);max-width:420px;}
+  .cta-form{display:flex;gap:0;}
+  .cta-form input{
+    background:transparent;border:1px solid var(--line);border-right:none;
+    padding:14px 16px;color:var(--white);font-size:13px;width:230px;
+  }
+  .cta-form input::placeholder{color:var(--steel);}
+  .cta-form button{
+    background:var(--blue-bright);border:none;color:var(--void);
+    padding:0 22px;font-weight:600;font-size:12px;letter-spacing:0.08em;
+    clip-path:polygon(10% 0,100% 0,90% 100%,0 100%);
+    cursor:pointer;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:60px 0 36px;border-top:1px solid var(--line);}
+  .foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;margin-bottom:50px;}
+  .foot-cols{display:flex;gap:70px;flex-wrap:wrap;}
+  .foot-col h5{font-size:12px;letter-spacing:0.1em;color:var(--blue-bright);margin-bottom:16px;}
+  .foot-col a{display:block;font-size:13px;color:var(--steel);margin-bottom:10px;transition:color 0.2s;}
+  .foot-col a:hover{color:var(--white);}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+    padding-top:26px;border-top:1px solid var(--line);
+    font-size:12px;color:var(--steel);
+  }
+  .socials{display:flex;gap:14px;}
+  .socials a{
+    width:34px;height:34px;border:1px solid var(--line);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .socials svg{width:15px;height:15px;stroke:var(--steel);}
+  .socials a:hover{border-color:var(--blue);}
+  .socials a:hover svg{stroke:var(--blue-bright);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .nav-links{display:none;}
+    .menu-btn{display:block;}
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .story-grid{grid-template-columns:1fr;gap:36px;}
+    .values{grid-template-columns:repeat(2,1fr);}
+    .hero-side{display:none;}
+    .cta-form{width:100%;}
+    .cta-form input{width:100%;}
+  }
+  @media (max-width:560px){
+    .grid{grid-template-columns:1fr;}
+    .values{grid-template-columns:1fr;}
+    .wrap,.hero-content,nav{padding-left:20px;padding-right:20px;}
+    .cta-inner{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="brandmark">
+      <div class="hex-badge"><img src="images/logo.png" alt="Faith Shop logo"></div>
+      <div class="brand-name">FAITH <span>SHOP</span></div>
+    </div>
+    <div class="nav-links">
+      <a href="#collection">Collection</a>
+      <a href="#story">Our Story</a>
+      <a href="#values">Why Faith</a>
+      <a href="#join">Contact</a>
+    </div>
+    <a href="#collection" class="nav-cta">Shop Now</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <img src="images/hero-cover.png" alt="Faith Shop — Wear Your Pride">
+  <div class="hero-content">
+    <div>
+      <span class="hero-eyebrow mono">// New Season Drop</span>
+      <h1>Faith in quality.<br>Delivering trust.</h1>
+      <a href="#collection" class="hero-cta">Shop The Collection →</a>
+    </div>
+    <div class="hero-side">
+      Premium streetwear built for the ones who wear their pride every day. Based in Bangladesh, shipped nationwide.
+    </div>
+  </div>
+  <div class="scroll-cue mono"><span>Scroll</span><div class="bar"></div></div>
+</section>
+
+<div class="marquee-band">
+  <div class="marquee-track mono">
+    <span>Faith in quality <b>•</b> Wear your pride <b>•</b> Delivering trust <b>•</b> Faith in quality <b>•</b> Wear your pride <b>•</b> Delivering trust <b>•</b></span>
+    <span>Faith in quality <b>•</b> Wear your pride <b>•</b> Delivering trust <b>•</b> Faith in quality <b>•</b> Wear your pride <b>•</b> Delivering trust <b>•</b></span>
+  </div>
+</div>
+
+<section id="collection">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow mono">Featured</span>
+        <h2>The Collection</h2>
+      </div>
+      <p>National team kits for the fans who back their side all year round — every jersey, one price.</p>
+    </div>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-media"><img src="images/jersey-saudi-green.jpg" alt="Saudi Arabia home jersey"></div>
+        <div class="card-body">
+          <span class="card-tag mono">Jersey</span>
+          <h3>Saudi Arabia Home Kit</h3>
+          <div class="card-foot">
+            <span class="price">৳ 550</span>
+            <a href="https://wa.me/8801924917597?text=Hi%20Faith%20Shop%21%20I%27d%20like%20to%20order%20the%20Saudi%20Arabia%20Home%20Kit%20%28%E0%A7%B3550%29.%20Please%20confirm%20availability%20and%20payment%20details." target="_blank" rel="noopener" class="add-btn">Order</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-media"><img src="images/jersey-belgium-red.jpg" alt="Belgium home jersey"></div>
+        <div class="card-body">
+          <span class="card-tag mono">Jersey</span>
+          <h3>Belgium Home Kit</h3>
+          <div class="card-foot">
+            <span class="price">৳ 550</span>
+            <a href="https://wa.me/8801924917597?text=Hi%20Faith%20Shop%21%20I%27d%20like%20to%20order%20the%20Belgium%20Home%20Kit%20%28%E0%A7%B3550%29.%20Please%20confirm%20availability%20and%20payment%20details." target="_blank" rel="noopener" class="add-btn">Order</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-media"><img src="images/jersey-argentina-black.jpg" alt="Argentina special edition jersey"></div>
+        <div class="card-body">
+          <span class="card-tag mono">Jersey</span>
+          <h3>Argentina Special Edition</h3>
+          <div class="card-foot">
+            <span class="price">৳ 550</span>
+            <a href="https://wa.me/8801924917597?text=Hi%20Faith%20Shop%21%20I%27d%20like%20to%20order%20the%20Argentina%20Special%20Edition%20%28%E0%A7%B3550%29.%20Please%20confirm%20availability%20and%20payment%20details." target="_blank" rel="noopener" class="add-btn">Order</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-media"><img src="images/jersey-saudi-white.jpg" alt="Saudi Arabia away jersey"></div>
+        <div class="card-body">
+          <span class="card-tag mono">Jersey</span>
+          <h3>Saudi Arabia Away Kit</h3>
+          <div class="card-foot">
+            <span class="price">৳ 550</span>
+            <a href="https://wa.me/8801924917597?text=Hi%20Faith%20Shop%21%20I%27d%20like%20to%20order%20the%20Saudi%20Arabia%20Away%20Kit%20%28%E0%A7%B3550%29.%20Please%20confirm%20availability%20and%20payment%20details." target="_blank" rel="noopener" class="add-btn">Order</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-media"><img src="images/jersey-brazil-yellow.jpg" alt="Brazil home jersey"></div>
+        <div class="card-body">
+          <span class="card-tag mono">Jersey</span>
+          <h3>Brazil Home Kit</h3>
+          <div class="card-foot">
+            <span class="price">৳ 550</span>
+            <a href="https://wa.me/8801924917597?text=Hi%20Faith%20Shop%21%20I%27d%20like%20to%20order%20the%20Brazil%20Home%20Kit%20%28%E0%A7%B3550%29.%20Please%20confirm%20availability%20and%20payment%20details." target="_blank" rel="noopener" class="add-btn">Order</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-media"><img src="images/jersey-germany-white.jpg" alt="Germany retro jersey"></div>
+        <div class="card-body">
+          <span class="card-tag mono">Jersey</span>
+          <h3>Germany Retro Kit</h3>
+          <div class="card-foot">
+            <span class="price">৳ 550</span>
+            <a href="https://wa.me/8801924917597?text=Hi%20Faith%20Shop%21%20I%27d%20like%20to%20order%20the%20Germany%20Retro%20Kit%20%28%E0%A7%B3550%29.%20Please%20confirm%20availability%20and%20payment%20details." target="_blank" rel="noopener" class="add-btn">Order</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-media"><img src="images/jersey-japan-navy.jpg" alt="Japan home jersey"></div>
+        <div class="card-body">
+          <span class="card-tag mono">Jersey</span>
+          <h3>Japan Home Kit</h3>
+          <div class="card-foot">
+            <span class="price">৳ 550</span>
+            <a href="https://wa.me/8801924917597?text=Hi%20Faith%20Shop%21%20I%27d%20like%20to%20order%20the%20Japan%20Home%20Kit%20%28%E0%A7%B3550%29.%20Please%20confirm%20availability%20and%20payment%20details." target="_blank" rel="noopener" class="add-btn">Order</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="story" id="story">
+  <div class="wrap story-grid">
+    <div>
+      <span class="eyebrow mono">Our Story</span>
+      <h2>Built for people who wear their <b>identity</b>, not just their clothes.</h2>
+      <p>Faith Shop started with one belief: what you wear should say something true about who you are. Every piece is chosen and finished with the same standard — premium materials, honest pricing, and a promise we keep on every order.</p>
+    </div>
+    <div class="story-stats">
+      <div class="stat"><b>100%</b><span>Customer Satisfaction</span></div>
+      <div class="stat"><b>Fast</b><span>& Reliable Delivery</span></div>
+      <div class="stat"><b>Premium</b><span>Quality Guaranteed</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="values">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow mono">Why Faith Shop</span>
+        <h2>The Promise</h2>
+      </div>
+    </div>
+    <div class="values">
+      <div class="value">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M8 13l-2 8 6-3 6 3-2-8"/></svg>
+        <h4>Premium Quality</h4>
+        <p>Every fabric and stitch checked before it reaches you.</p>
+      </div>
+      <div class="value">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M8 3v4M16 3v4M4 8h16M4 8v13h16V8"/></svg>
+        <h4>Trendy Collection</h4>
+        <p>New drops designed around what's actually worth wearing.</p>
+      </div>
+      <div class="value">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="1" y="7" width="14" height="10" rx="1"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.5"/><circle cx="17.5" cy="19" r="1.5"/></svg>
+        <h4>Fast & Reliable Delivery</h4>
+        <p>Ordered today, on its way fast — tracked door to door.</p>
+      </div>
+      <div class="value">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+        <h4>100% Satisfaction</h4>
+        <p>Not happy with it? We make it right, every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band" id="join">
+  <div class="wrap">
+    <div class="cta-inner">
+      <h3>Join the Faith Shop list — get first access to new drops.</h3>
+      <form class="cta-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Joined ✓';">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Join</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="brandmark">
+        <div class="hex-badge"><img src="images/logo.png" alt="Faith Shop logo"></div>
+        <div class="brand-name">FAITH <span>SHOP</span></div>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>Shop</h5>
+          <a href="#collection">Hoodies</a>
+          <a href="#collection">Tees</a>
+          <a href="#collection">Jackets</a>
+        </div>
+        <div class="foot-col">
+          <h5>Company</h5>
+          <a href="#story">Our Story</a>
+          <a href="#values">Why Faith</a>
+          <a href="#join">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Faith Shop. Wear your pride.</span>
+      <div class="socials">
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h3l1-3h-4V9z"/></svg></a>
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+        <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M14 4v10.5a3.5 3.5 0 11-3-3.46V8a6 6 0 106 6V9.5a6 6 0 003-1V5.5a4 4 0 01-6-1.5z"/></svg></a>
+      </div>
+      <span class="mono">/faithshop.bd</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
